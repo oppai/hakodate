@@ -26,8 +26,14 @@ function get($sql){
 	return mysql_fetch_assoc(query($sql));
 }
 function getAll($sql){
-	$result = query($sql);
-	while(($rowArray[] = mysql_fetch_assoc($result)) !== false);
+	for($result = query($sql) ; ($row = mysql_fetch_assoc($result)) !== false ; $rowArray[] = $row);
+	return $rowArray;
+}
+function g($sql){
+	return array_shift(mysql_fetch_assoc(query($sql)));
+}
+function gAll($sql){
+	for($result = query($sql) ; ($row = mysql_fetch_assoc($result)) !== false ; $rowArray[] = array_shift($row));
 	return $rowArray;
 }
 function hakoVarDump($data){
