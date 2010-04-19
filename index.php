@@ -4,6 +4,6 @@ include('module/hakodate.php');
 execute();
 
 function defaultAction(){
-	$data = get('select * from test');
+	$data = getAll('select * from books');
 	include('inc_index.php');
 }

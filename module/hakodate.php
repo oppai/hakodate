@@ -25,3 +25,13 @@ function query($sql){
 function get($sql){
 	return mysql_fetch_assoc(query($sql));
 }
+function getAll($sql){
+	$result = query($sql);
+	while(($rowArray[] = mysql_fetch_assoc($result)) !== false);
+	return $rowArray;
+}
+function hakoVarDump($data){
+	echo '<pre>';
+	var_dump($data);
+	echo '</pre>';
+}
