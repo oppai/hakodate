@@ -41,3 +41,57 @@ function hakoVarDump($data){
 	var_dump($data);
 	echo '</pre>';
 }
+/* Display multi-dimension array (for debugging) */
+function out($data){
+	if(is_object($data)){
+		$data = get_object_vars($data);
+	}
+	if(is_array($data)){
+		echo '<table border="1" style="border:solid 2px black;border-collapse: collapse;" bgcolor="#ffffff">';
+		echo '<tr bgcolor="#ffffaa"><td>key</td><td>value</td></tr>';
+		foreach($data as $key => $value){
+			echo '<tr><td>';
+			echo $key;
+			echo '</td><td>';
+			if($key !== 'GLOBALS'){
+				out($value);
+			}
+			echo '</td></tr>';
+		}
+		echo '</table>';
+	}else{
+		echo '<div>';
+		if(is_string($data)){
+			echo htmlspecialchars($data);
+		}else{
+			var_dump($data);
+		}
+		echo '</div>';
+	}
+}
+/* Display 2-dimension array (for debugging) */
+function table($table){
+	if(count($table) == 0){
+		echo 'Empty';
+		return;
+	}
+	echo '<table border="1" style="border:solid 2px black;border-collapse: collapse;" bgcolor="#ffffff">';
+	echo '<tr bgcolor="#ffffaa">';
+	echo '<td>-</td>';
+	foreach($table as $row){
+		foreach($row as $name => $td){
+			echo '<td>'.$name.'</td>';
+		}
+		break;
+	}
+	echo '</tr>';
+	foreach($table as $name => $tr){
+		echo '<tr>';
+		echo '<td bgcolor="#ffffaa">'.$name.'</td>';
+		foreach($tr as $td){
+			echo '<td>'.$td.'</td>';
+		}
+		echo '</tr>';
+	}
+	echo '</table>'	;
+}
