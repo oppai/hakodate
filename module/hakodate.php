@@ -36,6 +36,75 @@ function gAll($sql){
 	for($result = query($sql) ; ($row = mysql_fetch_assoc($result)) !== false ; $rowArray[] = array_shift($row));
 	return $rowArray;
 }
+function put($tableName, $dataStruct, $keyArray = array()){
+	$fieldNames = array_keys($dataStruct);
+	$fieldNames = array_map('backQuote', $fieldNames);
+	$dataValues = array_values($dataStruct);
+	$dataValues = array_map('quote', $dataValues);		
+	if(!is_array($keyArray)){
+		$keyArray = explode(',', $keyArray);
+	}
+	if(count($keyArray) > 0){
+		$sql1 = 'select count(*) count from `'.$tableName.'`';
+		if(count($keyArray)){
+			for($i = 0 ; $i < count($keyArray) ; $i++){
+				$searchKeyStruct[$keyArray[$i]] = $dataStruct[$keyArray[$i]];
+			}
+			$searchKeyStruct = array_map('quote', $searchKeyStruct);		
+			$dataSearchCondition = array_map(array($this,'makeEquation'), array_keys($searchKeyStruct), array_values($searchKeyStruct));
+			$sql1.= ' where '.implode(' and ', $dataSearchCondition);
+		}
+		$data = $this->fetch($this->query($sql1));
+		$count = $data['count'];
+	}
+	if(count($keyArray) == 0 || $count == 0){
+		return insert($tableName, $dataStruct);
+	}else{
+		update($tableName, $dataStruct, $keyArray);
+	}
+}
+function insert($tableName, $dataStruct){
+	$fieldNames = array_keys($dataStruct);
+	$fieldNames = array_map('backQuote', $fieldNames);
+	$dataValues = array_values($dataStruct);
+	$dataValues = array_map('quote', $dataValues);
+	$sql = 'insert into `'.$tableName.'`('.implode(',', $fieldNames).')values('.implode(',', $dataValues).')';
+	query($sql);
+	return mysql_insert_id();
+}
+function update($tableName, $dataStruct, $keyArray){
+	$fieldNames = array_keys($dataStruct);
+	$fieldNames = array_map(backQuote, $fieldNames);
+	$dataValues = array_values($dataStruct);
+	$dataValues = array_map(quote, $dataValues);		
+	if(!is_array($keyArray))$keyArray = explode(',', $keyArray);
+	foreach($fieldNames as $i => $name){
+		if(in_array($name, $keyArray)){
+			unset($fieldNames[$i]);
+			unset($dataValues[$i]);
+		}
+	}
+	for($i = 0 ; $i < count($keyArray) ; $i++){
+		$searchKeyStruct[$keyArray[$i]] = $dataStruct[$keyArray[$i]];
+	}
+	$searchKeyStruct = array_map('quote', $searchKeyStruct);		
+	$dataSearchCondition = array_map(array($this,'makeEquation'), array_keys($searchKeyStruct), array_values($searchKeyStruct));
+	$sql2 = 'update `'.$tableName.'` set '.implode(',', array_map(array($this,'makeEquation'), $fieldNames, $dataValues));
+	$sql2 .= ' where '.implode(' and ',$dataSearchCondition);
+	$this->query($sql2);
+}
+function quote($value){
+//	if($value === DAOBase::$dbnow){
+//		return 'now()';
+//	}else if($value === DAOBase::$null){
+//		return 'NULL';
+//	}else{
+		return "'".mysql_real_escape_string($value)."'";
+//	}
+}
+function backQuote($value){
+	return '`'.$value.'`';
+}
 function hakoVarDump($data){
 	echo '<pre>';
 	var_dump($data);
