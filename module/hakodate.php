@@ -95,13 +95,11 @@ function update($tableName, $dataStruct, $keyArray){
 	$this->query($sql2);
 }
 function quote($value){
-//	if($value === DAOBase::$dbnow){
-//		return 'now()';
-//	}else if($value === DAOBase::$null){
-//		return 'NULL';
-//	}else{
+	if($value === NULL){
+		return 'NULL';
+	}else{
 		return "'".mysql_real_escape_string($value)."'";
-//	}
+	}
 }
 function backQuote($value){
 	return '`'.$value.'`';
