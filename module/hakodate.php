@@ -157,9 +157,12 @@ function table($table){
 		echo '<tr>';
 		echo '<td bgcolor="#ffffaa">'.$name.'</td>';
 		foreach($tr as $td){
-			echo '<td>'.$td.'</td>';
+			echo '<td>'.h($td).'</td>';
 		}
 		echo '</tr>';
 	}
 	echo '</table>'	;
+}
+function h($str){
+	return htmlspecialchars($str, ENT_QUOTES, 'utf-8');
 }
