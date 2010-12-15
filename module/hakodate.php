@@ -14,11 +14,11 @@ function execute(){
 /**
  * Database
  **/
-function dq(){
-	return "'".mysql_real_escape_string($value)."'";
+function dq($str){
+	return "'".mysql_real_escape_string($str)."'";
 }
-function de(){
-	return mysql_real_escape_string($value);
+function de($str){
+	return mysql_real_escape_string($str);
 }
 function query($sql){
 	return mysql_query($sql);
@@ -130,7 +130,7 @@ function out($data){
 	}else{
 		echo '<div>';
 		if(is_string($data)){
-			echo htmlspecialchars($data);
+			echo h($data);
 		}else{
 			var_dump($data);
 		}
@@ -165,4 +165,7 @@ function table($table){
 }
 function h($str){
 	return htmlspecialchars($str, ENT_QUOTES, 'utf-8');
+}
+function uh($str){
+	return h(urlencode($str));
 }
