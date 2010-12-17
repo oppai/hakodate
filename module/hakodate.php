@@ -21,20 +21,24 @@ function de($str){
 	return mysql_real_escape_string($str);
 }
 function query($sql){
-	return mysql_query($sql);
+	if($resource = mysql_query($sql)){
+		return $recourse;
+	}else{
+		echo '<strong style="color:red">'.mysql_error().' - '.$sql.'</strong>';
+	}
 }
 function get($sql){
 	return mysql_fetch_assoc(query($sql));
 }
 function getAll($sql){
-	for($result = query($sql) ; ($row = mysql_fetch_assoc($result)) !== false ; $rowArray[] = $row);
+	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = $row);
 	return $rowArray;
 }
 function g($sql){
 	return array_shift(mysql_fetch_assoc(query($sql)));
 }
 function gAll($sql){
-	for($result = query($sql) ; ($row = mysql_fetch_assoc($result)) !== false ; $rowArray[] = array_shift($row));
+	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row))out($row);
 	return $rowArray;
 }
 function put($tableName, $dataStruct, $keyArray = array()){
@@ -139,8 +143,8 @@ function out($data){
 }
 /* Display 2-dimension array (for debugging) */
 function table($table){
-	if(count($table) == 0){
-		echo 'Empty';
+	if(!is_array($table)){
+		echo 'Not an array';
 		return;
 	}
 	echo '<table border="1" style="border:solid 2px black;border-collapse: collapse;" bgcolor="#ffffff">';
