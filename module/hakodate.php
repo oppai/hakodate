@@ -22,7 +22,7 @@ function de($str){
 }
 function query($sql){
 	if($resource = mysql_query($sql)){
-		return $recourse;
+		return $resource;
 	}else{
 		echo '<strong style="color:red">'.mysql_error().' - '.$sql.'</strong>';
 	}
