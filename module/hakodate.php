@@ -56,11 +56,10 @@ function put($tableName, $dataStruct, $keyArray = array()){
 				$searchKeyStruct[$keyArray[$i]] = $dataStruct[$keyArray[$i]];
 			}
 			$searchKeyStruct = array_map('quote', $searchKeyStruct);		
-			$dataSearchCondition = array_map(array($this,'makeEquation'), array_keys($searchKeyStruct), array_values($searchKeyStruct));
+			$dataSearchCondition = array_map('makeEquation', array_keys($searchKeyStruct), array_values($searchKeyStruct));
 			$sql1.= ' where '.implode(' and ', $dataSearchCondition);
 		}
-		$data = $this->fetch($this->query($sql1));
-		$count = $data['count'];
+		$count = g($sql1);
 	}
 	if(count($keyArray) == 0 || $count == 0){
 		return insert($tableName, $dataStruct);
@@ -79,9 +78,9 @@ function insert($tableName, $dataStruct){
 }
 function update($tableName, $dataStruct, $keyArray){
 	$fieldNames = array_keys($dataStruct);
-	$fieldNames = array_map(backQuote, $fieldNames);
+	$fieldNames = array_map('backQuote', $fieldNames);
 	$dataValues = array_values($dataStruct);
-	$dataValues = array_map(quote, $dataValues);		
+	$dataValues = array_map('quote', $dataValues);		
 	if(!is_array($keyArray))$keyArray = explode(',', $keyArray);
 	foreach($fieldNames as $i => $name){
 		if(in_array($name, $keyArray)){
@@ -93,10 +92,10 @@ function update($tableName, $dataStruct, $keyArray){
 		$searchKeyStruct[$keyArray[$i]] = $dataStruct[$keyArray[$i]];
 	}
 	$searchKeyStruct = array_map('quote', $searchKeyStruct);		
-	$dataSearchCondition = array_map(array($this,'makeEquation'), array_keys($searchKeyStruct), array_values($searchKeyStruct));
-	$sql2 = 'update `'.$tableName.'` set '.implode(',', array_map(array($this,'makeEquation'), $fieldNames, $dataValues));
+	$dataSearchCondition = array_map('makeEquation', array_keys($searchKeyStruct), array_values($searchKeyStruct));
+	$sql2 = 'update `'.$tableName.'` set '.implode(',', array_map('makeEquation', $fieldNames, $dataValues));
 	$sql2 .= ' where '.implode(' and ',$dataSearchCondition);
-	$this->query($sql2);
+	query($sql2);
 }
 function quote($value){
 	if($value === NULL){
@@ -112,6 +111,9 @@ function hakoVarDump($data){
 	echo '<pre>';
 	var_dump($data);
 	echo '</pre>';
+}
+function makeEquation($key, $value){
+	return $key.'='.$value;
 }
 /* Display multi-dimension array (for debugging) */
 function out($data){
