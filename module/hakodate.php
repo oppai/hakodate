@@ -35,10 +35,10 @@ function getAll($sql){
 	return $rowArray;
 }
 function g($sql){
-	return array_shift(mysql_fetch_assoc(query($sql)));
+	return $ret = mysql_fetch_assoc(query($sql)) && array_shift($ret);
 }
 function gAll($sql){
-	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row));
+	for($result = query($sql), $rowArray = array() ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row));
 	return $rowArray;
 }
 function put($tableName, $dataStruct, $keyArray = array()){
@@ -174,4 +174,7 @@ function h($str){
 }
 function uh($str){
 	return h(urlencode($str));
+}
+function location($url){
+	header('location:'.$url);
 }
