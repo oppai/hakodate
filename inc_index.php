@@ -27,10 +27,5 @@
 &lt;?php table(getAll('select&nbsp;*&nbsp;from&nbsp;books'));/*&nbsp;get&nbsp;all&nbsp;and&nbsp;display&nbsp;as&nbsp;table&nbsp;*/?&gt;
 <?php table(getAll('select * from books'));/* get all and display as table */?>
 
-<?php
-
-put('books', array('book_name' => 'Book AAA', 'price' => 1980));
-
-?>
 </body>
 </table>
