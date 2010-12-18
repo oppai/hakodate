@@ -1,0 +1,5 @@
+<Files ~ "^inc_.*\.php$">
+deny from all
+</Files>
+Options -Indexes
+AddHandler php5-script .php
