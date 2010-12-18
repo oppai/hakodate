@@ -31,7 +31,7 @@ function get($sql){
 	return mysql_fetch_assoc(query($sql));
 }
 function getAll($sql){
-	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = $row);
+	for($result = query($sql), $rowArray = array(); $row = mysql_fetch_assoc($result) ; $rowArray[] = $row);
 	return $rowArray;
 }
 function g($sql){
