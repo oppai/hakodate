@@ -7,7 +7,7 @@ query('USE `'.$config['db']['database'].'`');
 query('SET NAMES utf8');
 
 function execute(){
-	$action = (isset($_POST['action']) ? $_POST['action'] : 'default').'Action';
+	$action = (isset($_GET['action']) ? $_GET['action'] : 'default').'Action';
 	$action();
 }
 
