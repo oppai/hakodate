@@ -50,14 +50,14 @@ function put($tableName, $dataStruct, $keyArray = array()){
 		$keyArray = explode(',', $keyArray);
 	}
 	if(count($keyArray) > 0){
-		$sql1 = 'select count(*) count from `'.$tableName.'`';
+		$sql1 = 'SELECT COUNT(*) count FROM '.backQuote($tableName);
 		if(count($keyArray)){
 			for($i = 0 ; $i < count($keyArray) ; $i++){
 				$searchKeyStruct[$keyArray[$i]] = $dataStruct[$keyArray[$i]];
 			}
 			$searchKeyStruct = array_map('quote', $searchKeyStruct);		
 			$dataSearchCondition = array_map('makeEquation', array_keys($searchKeyStruct), array_values($searchKeyStruct));
-			$sql1.= ' where '.implode(' and ', $dataSearchCondition);
+			$sql1.= ' WHERE '.implode(' AND ', $dataSearchCondition);
 		}
 		$count = g($sql1);
 	}
@@ -72,7 +72,7 @@ function insert($tableName, $dataStruct){
 	$fieldNames = array_map('backQuote', $fieldNames);
 	$dataValues = array_values($dataStruct);
 	$dataValues = array_map('quote', $dataValues);
-	$sql = 'insert into `'.$tableName.'`('.implode(',', $fieldNames).')values('.implode(',', $dataValues).')';
+	$sql = 'INSERT INTO `'.$tableName.'`('.implode(',', $fieldNames).') VALUES ('.implode(',', $dataValues).')';
 	query($sql);
 	return mysql_insert_id();
 }
@@ -93,8 +93,8 @@ function update($tableName, $dataStruct, $keyArray){
 	}
 	$searchKeyStruct = array_map('quote', $searchKeyStruct);		
 	$dataSearchCondition = array_map('makeEquation', array_keys($searchKeyStruct), array_values($searchKeyStruct));
-	$sql2 = 'update `'.$tableName.'` set '.implode(',', array_map('makeEquation', $fieldNames, $dataValues));
-	$sql2 .= ' where '.implode(' and ',$dataSearchCondition);
+	$sql2 = 'UPDATE `'.$tableName.'` SET '.implode(',', array_map('makeEquation', $fieldNames, $dataValues));
+	$sql2 .= ' WHERE '.implode(' AND ',$dataSearchCondition);
 	query($sql2);
 }
 function quote($value){
