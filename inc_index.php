@@ -5,27 +5,15 @@
 <body>
 <h1>Hello Hakodate Framework!</h1>
 
-<h2>Get a row</h2>
-&lt;?php out(get('select&nbsp;*&nbsp;from&nbsp;books'));&nbsp;/*&nbsp;get&nbsp;the&nbsp;first&nbsp;row&nbsp;*/?&gt;
-<?php out(get('select * from books limit 1')); /* get the first row */?>
+<h2>Environment</h2>
+MySQL 5.0 or higher version of MySQL recommended.
 
-<h2>Get rows</h2>
-&lt;?php out(g('select&nbsp;book_name&nbsp;from&nbsp;books'));/*&nbsp;get&nbsp;first&nbsp;column&nbsp;of&nbsp;the&nbsp;first&nbsp;row*/?&gt;
-<?php out(g('select book_name from books limit 1'));/* get first column of the first row*/?>
+<h2>DB Setting</h2>
+You have to set your account in config/config.php.
 
-<h2>Get a value</h2>
-&lt;?php out(gAll('select&nbsp;book_name&nbsp;from&nbsp;books'));/*&nbsp;get&nbsp;first&nbsp;columns&nbsp;of&nbsp;all&nbsp;rows&nbsp;*/?&gt;
-<?php out(gAll('select book_name from books'));/* get first columns of all rows */?>
+<h2>Sample1 -- select data from a database and display them</h2>
+<a href="index.php?action=sample"/>sample</a>
 
-<h2>Get values</h2>
-&lt;?php out(getAll('select&nbsp;*&nbsp;from&nbsp;books'));/*&nbsp;get&nbsp;all&nbsp;rows&nbsp;*/?&gt;
-<?php echo "<?php out(getAll('select * from books'));/* get all rows */?>"?>
-<?php out(getAll('select * from books'));/* get all rows */?>
-
-
-<h2>Get rows and display in table</h2>
-&lt;?php table(getAll('select&nbsp;*&nbsp;from&nbsp;books'));/*&nbsp;get&nbsp;all&nbsp;and&nbsp;display&nbsp;as&nbsp;table&nbsp;*/?&gt;
-<?php table(getAll('select * from books'));/* get all and display as table */?>
 
 </body>
 </table>
