@@ -38,7 +38,7 @@ function g($sql){
 	return array_shift(mysql_fetch_assoc(query($sql)));
 }
 function gAll($sql){
-	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row))out($row);
+	for($result = query($sql) ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row));
 	return $rowArray;
 }
 function put($tableName, $dataStruct, $keyArray = array()){
