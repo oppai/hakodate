@@ -1,10 +1,10 @@
 <?php
 require(dirname(__FILE__) . '/../config/config.php');
 
-$ret = mysql_connect($config['db']['host'], $config['db']['user'], $config['db']['password']);
+$ret = mysql_connect($config['db']['host'], $config['db']['user'], $config['db']['password']) OR DIE('CONNECTION FAILURE');
 
-mysql_query('use `'.$config['db']['database'].'`');
-mysql_query('SET NAMES utf8');
+query('USE `'.$config['db']['database'].'`');
+query('SET NAMES utf8');
 
 function execute(){
 	$action = (isset($_POST['action']) ? $_POST['action'] : 'default').'Action';
