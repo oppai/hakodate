@@ -8,7 +8,8 @@ query('SET NAMES utf8');
 
 function execute(){
 	$action = (isset($_GET['action']) ? $_GET['action'] : 'default').'Action';
-	$action();
+	if(function_exists($action)) $action();
+	else defaultAction();
 }
 
 /**
