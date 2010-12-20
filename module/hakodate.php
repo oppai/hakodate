@@ -24,8 +24,11 @@ function query($sql){
 	if($resource = mysql_query($sql)){
 		return $resource;
 	}else{
-		echo '<strong style="color:red">'.mysql_error().' - '.$sql.'</strong>';
+		echo error(mysql_error().' - '.$sql);
 	}
+}
+function error($str){
+	echo '<strong style="color:red">'.$str.'</strong>';
 }
 function get($sql){
 	return mysql_fetch_assoc(query($sql));
@@ -35,7 +38,15 @@ function getAll($sql){
 	return $rowArray;
 }
 function g($sql){
-	return $ret = mysql_fetch_assoc(query($sql)) && array_shift($ret);
+	$ret = mysql_fetch_assoc(query($sql));
+	if(is_array($ret)){
+		if(count($ret) != 1){
+			error('It should have only one column'.$sql);
+		}
+		return array_shift($ret);
+	}else{
+		return false;
+	}
 }
 function gAll($sql){
 	for($result = query($sql), $rowArray = array() ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row));
@@ -93,9 +104,7 @@ function update($tableName, $dataStruct, $keyArray){
 	}
 	$searchKeyStruct = array_map('quote', $searchKeyStruct);		
 	$dataSearchCondition = array_map('makeEquation', array_keys($searchKeyStruct), array_values($searchKeyStruct));
-	$sql2 = 'UPDATE `'.$tableName.'` SET '.implode(',', array_map('makeEquation', $fieldNames, $dataValues));
-	$sql2 .= ' WHERE '.implode(' AND ',$dataSearchCondition);
-	query($sql2);
+	query('UPDATE '.backQuote($tableName).' SET '.implode(',', array_map('makeEquation', $fieldNames, $dataValues)).' WHERE '.implode(' AND ',$dataSearchCondition));
 }
 function quote($value){
 	if($value === NULL){
@@ -107,19 +116,12 @@ function quote($value){
 function backQuote($value){
 	return '`'.$value.'`';
 }
-function hakoVarDump($data){
-	echo '<pre>';
-	var_dump($data);
-	echo '</pre>';
-}
 function makeEquation($key, $value){
 	return $key.'='.$value;
 }
 /* Display multi-dimension array (for debugging) */
 function out($data){
-	if(is_object($data)){
-		$data = get_object_vars($data);
-	}
+	if(is_object($data))$data = get_object_vars($data);
 	if(is_array($data)){
 		echo '<table border="1" style="border:solid 2px black;border-collapse: collapse;" bgcolor="#ffffff">';
 		echo '<tr bgcolor="#ffffaa"><td>key</td><td>value</td></tr>';
@@ -154,14 +156,14 @@ function table($table){
 	echo '<td>-</td>';
 	foreach($table as $row){
 		foreach($row as $name => $td){
-			echo '<td>'.$name.'</td>';
+			echo '<td>'.h($name).'</td>';
 		}
 		break;
 	}
 	echo '</tr>';
 	foreach($table as $name => $tr){
 		echo '<tr>';
-		echo '<td bgcolor="#ffffaa">'.$name.'</td>';
+		echo '<td bgcolor="#ffffaa">'.h($name).'</td>';
 		foreach($tr as $td){
 			echo '<td>'.h($td).'</td>';
 		}
@@ -177,4 +179,41 @@ function uh($str){
 }
 function location($url){
 	header('location:'.$url);
+}
+function gu($list){
+	$ret = array();
+	foreach(explode(',', $list) as $name){
+		if(isset($_GET[$name])){
+			$ret[] = $name.'='.urlencode($_GET[$name]);
+		}
+	}
+	return implode('&amp;', $ret);
+}
+function mh($list = false){
+	$ret = array();
+	if($data === false){
+		$data = $_POST;
+	}
+	if($list === false){
+		foreach($_POST as $name => $value){
+			if(is_array($data[$name])){
+				foreach($data[$name] as $elem){
+					$ret[] = '<input type="hidden" name="'.h($name).'[]" value="'.ht($elem).'"/>';
+				}
+			}else{
+				$ret[] = '<input type="hidden" name="'.h($name).'" value="'.h($_POST[$name]).'"/>';
+			}
+		}
+	}else{
+		foreach(explode(',', $list) as $name){
+			if(is_array($data[$name])){
+				foreach($data[$name] as $elem){
+					$ret[] = '<input type="hidden" name="'.h($name).'[]" value="'.ht($elem).'"/>';
+				}
+			}else{
+				$ret[] = '<input type="hidden" name="'.h($name).'" value="'.h($data[$name]).'"/>';
+			}
+		}
+	}
+	return implode(chr(10), $ret);
 }
