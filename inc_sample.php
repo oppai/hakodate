@@ -4,7 +4,7 @@
 </head>
 <body>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-[ <a href="index.php?action=addForm">add</a> ]
+[ <a href="index.php?action=add">add</a> ]
 <table border="1">
 	<tr>
 		<td>edit</td>
@@ -13,7 +13,7 @@
 		<td>price</td>
 		<td>delete</td>
 	</tr>
-<?php foreach(getAll('select * from books') as $book){?>
+<?php foreach(getAll('SELECT * FROM books') as $book){?>
 	<tr>
 		<td><input type="button" onclick="location.href='index.php?action=edit&book_id=<?php echo h($book['book_id'])?>'" value="edit"></td>
 		<td><?php echo h($book['book_id'])?></td>

@@ -4,7 +4,7 @@
 <title>Sample1 -- confirm</title>
 </head>
 <body>
-<form name="form" action="index.php?action=add&amp;<?=h(gu('book_id'))?>" method="post">
+<form name="form" action="index.php?action=save&amp;<?=h(gu('book_id'))?>" method="post">
 <fieldset style="width:350px">
 <legend>Add a new book</legend>
 Book Name: <?=h($_POST['book_name'])?><br>
