@@ -1,4 +1,9 @@
+<html>
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Sample1 -- form</title>
+</head>
+<body>
 <form action="index.php?action=conf&amp;<?=gu('book_id')?>" method="post">
 <fieldset style="width:350px">
 <legend>Add a new book</legend>
@@ -15,3 +20,5 @@ Price:
 <?}?>
 </fieldset>
 </form>
+</body>
+</html>

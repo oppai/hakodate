@@ -187,15 +187,6 @@ function gu($list){
 			$ret[] = $name.'='.urlencode($_GET[$name]);
 		}
 	}
-	return implode('&amp;', $ret);
-}
-function gl($list){
-	$ret = array();
-	foreach(explode(',', $list) as $name){
-		if(isset($_GET[$name])){
-			$ret[] = $name.'='.urlencode($_GET[$name]);
-		}
-	}
 	return implode('&', $ret);
 }
 function mh($list = false){
