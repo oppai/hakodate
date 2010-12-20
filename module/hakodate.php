@@ -39,14 +39,7 @@ function getAll($sql){
 }
 function g($sql){
 	$ret = mysql_fetch_assoc(query($sql));
-	if(is_array($ret)){
-		if(count($ret) != 1){
-			error('It should have only one column'.$sql);
-		}
-		return array_shift($ret);
-	}else{
-		return false;
-	}
+	return is_array($ret) ? array_shift($ret) : false;
 }
 function gAll($sql){
 	for($result = query($sql), $rowArray = array() ; $row = mysql_fetch_assoc($result) ; $rowArray[] = array_shift($row));
