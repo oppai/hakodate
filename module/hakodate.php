@@ -189,30 +189,30 @@ function gu($list){
 	}
 	return implode('&amp;', $ret);
 }
+function gl($list){
+	$ret = array();
+	foreach(explode(',', $list) as $name){
+		if(isset($_GET[$name])){
+			$ret[] = $name.'='.urlencode($_GET[$name]);
+		}
+	}
+	return implode('&', $ret);
+}
 function mh($list = false){
 	$ret = array();
-	if($data === false){
-		$data = $_POST;
-	}
 	if($list === false){
-		foreach($_POST as $name => $value){
-			if(is_array($data[$name])){
-				foreach($data[$name] as $elem){
-					$ret[] = '<input type="hidden" name="'.h($name).'[]" value="'.ht($elem).'"/>';
-				}
-			}else{
-				$ret[] = '<input type="hidden" name="'.h($name).'" value="'.h($_POST[$name]).'"/>';
-			}
-		}
+		$list = array_keys($_POST);
+	}elseif(is_array($list)){
 	}else{
-		foreach(explode(',', $list) as $name){
-			if(is_array($data[$name])){
-				foreach($data[$name] as $elem){
-					$ret[] = '<input type="hidden" name="'.h($name).'[]" value="'.ht($elem).'"/>';
-				}
-			}else{
-				$ret[] = '<input type="hidden" name="'.h($name).'" value="'.h($data[$name]).'"/>';
+		$list = explode(',', $list);
+	}
+	foreach($list as $name){
+		if(is_array($_POST[$name])){
+			foreach($_POST[$name] as $elem){
+				$ret[] = '<input type="hidden" name="'.h($name).'[]" value="'.h($elem).'"/>';
 			}
+		}else{
+			$ret[] = '<input type="hidden" name="'.h($name).'" value="'.h($_POST[$name]).'"/>';
 		}
 	}
 	return implode(chr(10), $ret);

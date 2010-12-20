@@ -30,6 +30,12 @@ function addAction(){
 	}
 	location('index.php?action=sample');
 }
+function confAction(){
+	include('inc_add_conf.php');
+}
+function confToFormAction(){
+	include('inc_add_form.php');
+}
 function deleteAction(){
 	query('DELETE FROM books WHERE book_id = '.dq($_GET['book_id']));
 	location('index.php?action=sample');
