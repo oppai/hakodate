@@ -202,3 +202,15 @@ function mh($list = false){
 	}
 	return implode(chr(10), $ret);
 }
+function config($name){
+	$names = explode('.', $name);
+	$config_tmp = $GLOBALS['config'];
+	foreach($names as $part){
+		if(isset($config_tmp[$part])){
+			$config_tmp = $config_tmp[$part];
+		}else{
+			return;
+		}
+	}
+	return $config_tmp;
+}
