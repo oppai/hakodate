@@ -1,5 +1,5 @@
 {
-    "name": "hakodate-framework",
+    "name": "kodam/hakodate-framework",
     "description": "Simple DB Module",
     "keywords": ["MySQL", "hakodate"],
     "type": "library",
