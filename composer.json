@@ -1,0 +1,13 @@
+{
+    "name": "hakodate-framework",
+    "description": "Simple DB Module",
+    "keywords": ["MySQL", "hakodate"],
+    "type": "library",
+    "license": "Apache License 2.0",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+      "files": ["module/hakodate.php"]
+   }
+}
